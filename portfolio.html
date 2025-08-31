@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Portfolio of Amit Kumar Mishra, Physics graduate turned Data Scientist showcasing projects, skills, and contact.">
+    <meta name="keywords" content="Amit Kumar Mishra, Data Science, Machine Learning, Physics, Portfolio, Projects">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><!-- EDIT: -->Amit Kumar Mishra | 3D Data Science Portfolio</title>
+    <script src="https://unpkg.com/three@0.154.0/build/three.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-x: hidden;
+            background: linear-gradient(135deg, #0c0c1e 0%, #1a1a2e 50%, #16213e 100%);
+            color: white;
+            cursor: grab;
+        }
+
+        body:active {
+            cursor: grabbing;
+        }
+
+        #canvas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            z-index: 1;
+        }
+
+        .ui-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .hero-section {
+            position: fixed;
+            top: 50%;
+            left: 50px;
+            transform: translateY(-50%);
+            z-index: 50;
+            pointer-events: auto;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(102, 126, 234, 0.3);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 450px;
+            animation: slideIn 2s ease-out;
+        }
+
+        .hero-section h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .hero-section h2 {
+            color: #8892f0;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            font-weight: 300;
+        }
+
+        .hero-section p {
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 25px;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .cta-btn {
+            padding: 12px 24px;
+            background: rgba(102, 126, 234, 0.8);
+            border: none;
+            border-radius: 25px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .cta-btn:hover {
+            background: rgba(102, 126, 234, 1);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .cta-btn.secondary {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .navigation {
+            position: fixed;
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+            z-index: 100;
+            pointer-events: auto;
+            flex-wrap: wrap;
+        }
+
+        .nav-btn {
+            padding: 12px 24px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .nav-btn:hover, .nav-btn.active {
+            background: rgba(102, 126, 234, 0.8);
+            border-color: rgba(102, 126, 234, 1);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .content-panel {
+            position: fixed;
+            top: 50%;
+            right: 50px;
+            transform: translateY(-50%);
+            width: 450px;
+            max-height: 80vh;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(102, 126, 234, 0.3);
+            border-radius: 20px;
+            padding: 30px;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.5s ease;
+            overflow-y: auto;
+            z-index: 50;
+        }
+
+        .content-panel.active {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(-50%) translateX(0);
+        }
+
+        .content-panel h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+
+        .content-panel h3 {
+            color: #8892f0;
+            margin: 20px 0 10px;
+            font-size: 1.3rem;
+        }
+
+        .content-panel p {
+            line-height: 1.8;
+            margin-bottom: 15px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .skill-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .skill-item {
+            background: rgba(102, 126, 234, 0.2);
+            padding: 12px 15px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 0.9rem;
+            border: 1px solid rgba(102, 126, 234, 0.3);
+        }
+
+        .skill-item:hover {
+            background: rgba(102, 126, 234, 0.4);
+        }
+
+        .project-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .project-card:hover {
+            background: rgba(102, 126, 234, 0.1);
+            border-color: rgba(102, 126, 234, 0.5);
+            transform: translateX(-5px) scale(1.02);
+        }
+
+        .project-card h4 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .tech-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 15px;
+        }
+
+        .tech-tag {
+            background: rgba(102, 126, 234, 0.3);
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            transition: all 0.3s ease;
+        }
+
+        .tech-tag:hover {
+            background: rgba(102, 126, 234, 0.6);
+            transform: scale(1.1);
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .contact-item:hover {
+            background: rgba(102, 126, 234, 0.2);
+            transform: translateX(10px);
+        }
+
+        .instructions {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            padding: 15px 25px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            opacity: 0;
+            animation: fadeInUp 1s ease 2s both;
+            z-index: 100;
+            pointer-events: none;
+        }
+
+        .floating-stats {
+            position: fixed;
+            bottom: 100px;
+            right: 50px;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(102, 126, 234, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+            z-index: 50;
+            pointer-events: none;
+        }
+
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+        }
+
+        .stat-value {
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50%) translateX(-100px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(-50%) translateX(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateX(-50%) translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .floating {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .hero-section,
+            .content-panel {
+                position: fixed;
+                top: 50%;
+                left: 20px;
+                right: 20px;
+                width: auto;
+                max-height: 70vh;
+                padding: 25px;
+            }
+            
+            .navigation {
+                top: 20px;
+                flex-wrap: wrap;
+                justify-content: center;
+                max-width: 90%;
+                gap: 10px;
+            }
+            
+            .nav-btn {
+                padding: 8px 16px;
+                font-size: 0.9rem;
+            }
+
+            .floating-stats {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="canvas-container"></div>
+
+    <div class="ui-overlay">
+        <nav class="navigation">
+            <button class="nav-btn active" onclick="showSection('home', this)">Home</button>
+            <button class="nav-btn" onclick="showSection('about', this)">About</button>
+            <button class="nav-btn" onclick="showSection('skills', this)">Skills</button>
+            <button class="nav-btn" onclick="showSection('projects', this)">Projects</button>
+            <button class="nav-btn" onclick="showSection('contact', this)">Contact</button>
+        </nav>
+
+        <div class="instructions">
+            🖱️ Drag to explore • 🔍 Scroll to zoom • ✨ Click objects for effects
+        </div>
+
+        <!-- Hero Section (Home) -->
+        <div class="hero-section" id="home-panel">
+            <h1><!-- EDIT: -->Amit Kumar Mishra</h1>
+            <h2><!-- EDIT: -->Aspiring Data Scientist</h2>
+            <p><!-- EDIT: -->Transforming complex data into actionable insights through machine learning, statistical analysis, and interactive visualizations. Ready to tackle real-world challenges with cutting-edge data science techniques.</p>
+            <div class="cta-buttons">
+                <a href="resume.pdf" target="_blank" class="cta-btn">📄 View Resume</a>
+                <a href="#projects" class="cta-btn" onclick="showSection('projects', this)">View Projects</a>
+                <a href="#contact" class="cta-btn secondary" onclick="showSection('contact', this)">Get In Touch</a>
+            </div>
+        </div>
+
+        <!-- Floating Stats -->
+        <div class="floating-stats floating">
+            <div class="stat-item">
+                <span>Projects Completed:</span>
+                <span class="stat-value"><a href="#projects" onclick="showSection('projects')" style="color: #667eea; text-decoration:none;">8+</a></span>
+            </div>
+            <div class="stat-item">
+                <span>ML Models Deployed:</span>
+                <span class="stat-value"><!-- EDIT: -->5</span>
+            </div>
+            <div class="stat-item">
+                <span>Data Points Analyzed:</span>
+                <span class="stat-value"><!-- EDIT: -->1M+</span>
+            </div>
+        </div>
+
+        <!-- Content Panels -->
+        <div class="content-panel" id="about-panel">
+            <h2>About Me</h2>
+            <p>I’m a physics graduate who discovered a passion for extracting insights from complex datasets. My academic background trained me in mathematical modeling, statistical reasoning, and problem-solving, which I now apply to data science projects.</p>
+
+            <h3>Background</h3>
+            <p>During my studies and self-driven projects, I shifted focus from theoretical models to real-world data applications. I built skills in machine learning, predictive modeling, and visualization, completing projects that connect scientific rigor with practical analytics.</p>
+
+            <h3>Career Goals</h3>
+            <p>I’m pursuing opportunities as a Data Scientist, ML Engineer, or Data Analyst where I can combine my physics-honed analytical thinking with modern data science techniques to drive evidence-based decision making.</p>
+        </div>
+
+        <div class="content-panel" id="skills-panel">
+            <h2>Technical Skills</h2>
+            
+            <h3>Programming Languages</h3>
+            <div class="skill-grid">
+                <div class="skill-item"><!-- EDIT: -->Python</div>
+                <div class="skill-item"><!-- EDIT: -->SQL</div>
+                <div class="skill-item"><!-- EDIT: -->JavaScript</div>
+            </div>
+
+            <h3>ML & Data Science</h3>
+            <div class="skill-grid">
+                <div class="skill-item"><!-- EDIT: -->Pandas</div>
+                <div class="skill-item"><!-- EDIT: -->NumPy</div>
+                <div class="skill-item"><!-- EDIT: -->Scikit-learn</div>
+                <div class="skill-item"><!-- EDIT: -->TensorFlow</div>
+                <div class="skill-item"><!-- EDIT: -->PyTorch</div>
+                <div class="skill-item"><!-- EDIT: -->XGBoost</div>
+                <div class="skill-item"><!-- EDIT: -->NLP</div>
+                <div class="skill-item"><!-- EDIT: -->Deep learning</div>
+            </div>
+
+            <h3>Visualization & Tools</h3>
+            <div class="skill-grid">
+                <div class="skill-item"><!-- EDIT: -->Tableau</div>
+                <div class="skill-item"><!-- EDIT: -->Matplotlib</div>
+                <div class="skill-item"><!-- EDIT: -->Plotly</div>
+                <div class="skill-item"><!-- EDIT: -->Git/GitHub</div>
+                <div class="skill-item"><!-- EDIT: -->Docker</div>
+            </div>
+        </div>
+
+        <div class="content-panel" id="projects-panel">
+            <h2>Featured Projects</h2>
+
+            <div class="project-card" onclick="triggerProjectEffect('churn')">
+                <h4>🎯 Customer Churn Prediction System</h4>
+                <p><!-- EDIT: -->Built an ensemble ML model achieving 94% accuracy in predicting customer churn. Implemented feature engineering, hyperparameter tuning, and deployed via Streamlit dashboard for real-time predictions.</p>
+                <div class="tech-tags">
+                    <span class="tech-tag">Python</span>
+                    <span class="tech-tag">XGBoost</span>
+                    <span class="tech-tag">Scikit-learn</span>
+                    <span class="tech-tag">Streamlit</span>
+                </div>
+                <div class="cta-buttons" style="margin-top:15px;">
+                    <a href="https://github.com/Amit4517187/churn-prediction" target="_blank" class="cta-btn secondary">🔗 Code</a>
+                    <a href="https://churn-demo.streamlit.app" target="_blank" class="cta-btn">🚀 Demo</a>
+                </div>
+            </div>
+
+            <div class="project-card" onclick="triggerProjectEffect('recommendation')">
+                <h4>🛒 E-commerce Recommendation Engine</h4>
+                <p><!-- EDIT: -->Developed a hybrid recommendation system combining collaborative filtering and content-based approaches. Increased user engagement by 35% through personalized product suggestions.</p>
+                <div class="tech-tags">
+                    <span class="tech-tag">Python</span>
+                    <span class="tech-tag">Pandas</span>
+                    <span class="tech-tag">Surprise</span>
+                    <span class="tech-tag">Flask</span>
+                </div>
+                <div class="cta-buttons" style="margin-top:15px;">
+                    <a href="https://github.com/Amit4517187/ecommerce-recommendation" target="_blank" class="cta-btn secondary">🔗 Code</a>
+                    <a href="https://recommend-demo.herokuapp.com" target="_blank" class="cta-btn">🚀 Demo</a>
+                </div>
+            </div>
+
+            <div class="project-card" onclick="triggerProjectEffect('sentiment')">
+                <h4>📊 Real-time Sentiment Analysis Dashboard</h4>
+                <p><!-- EDIT: -->Created a live sentiment monitoring system for social media data using NLP techniques. Features real-time visualizations and trend analysis with 89% sentiment classification accuracy.</p>
+                <div class="tech-tags">
+                    <span class="tech-tag">NLP</span>
+                    <span class="tech-tag">BERT</span>
+                    <span class="tech-tag">Tableau</span>
+                    <span class="tech-tag">Twitter API</span>
+                </div>
+                <div class="cta-buttons" style="margin-top:15px;">
+                    <a href="https://github.com/Amit4517187/sentiment-dashboard" target="_blank" class="cta-btn secondary">🔗 Code</a>
+                    <a href="https://sentiment-demo.herokuapp.com" target="_blank" class="cta-btn">🚀 Demo</a>
+                </div>
+            </div>
+
+            <div class="project-card" onclick="triggerProjectEffect('pricing')">
+                <h4>🏠 Dynamic Pricing Model</h4>
+                <p><!-- EDIT: -->Built a regression-based pricing model for real estate using feature engineering and ensemble methods. Deployed as a web app with interactive visualizations and location-based insights.</p>
+                <div class="tech-tags">
+                    <span class="tech-tag">Random Forest</span>
+                    <span class="tech-tag">AWS</span>
+                    <span class="tech-tag">Plotly</span>
+                    <span class="tech-tag">Geospatial</span>
+                </div>
+                <div class="cta-buttons" style="margin-top:15px;">
+                    <a href="https://github.com/Amit4517187/dynamic-pricing" target="_blank" class="cta-btn secondary">🔗 Code</a>
+                    <a href="https://pricing-demo.herokuapp.com" target="_blank" class="cta-btn">🚀 Demo</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-panel" id="contact-panel">
+            <h2>Let's Connect</h2>
+            <p>I'm actively seeking opportunities in data science and would love to discuss how I can contribute to your team's success.</p>
+            
+            <div class="contact-info">
+                <div class="contact-item">
+                    <span role="img" aria-label="Email">📧</span>
+                    <div>
+                        <strong>Gmail</strong><br>
+                        <!-- EDIT: --><a href="mailto:amitkmishra0641@gmail.com" style="color: #667eea;">amitkmishra0641@gmail.com</a>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <span role="img" aria-label="LinkedIn">💼</span>
+                    <div>
+                        <strong>LinkedIn</strong><br>
+                        <!-- EDIT: --><a href="https://www.linkedin.com/in/amit-kumar-mishra-635bb0240/" style="color: #667eea;">linkedin.com/in/amit-kumar-mishra-635bb0240
+                        </a>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <span role="img" aria-label="GitHub">⚡</span>
+                    <div>
+                        <strong>GitHub</strong><br>
+                        <!-- EDIT: --><a href="https://github.com/Amit4517187" style="color: #667eea;">github.com/Amit4517187</a>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <span role="img" aria-label="Portfolio">🌐</span>
+                    <div>
+                        <strong>Portfolio</strong><br>
+                        <!-- EDIT: --><a href="https://amit4517187.github.io/portfolio" target="_blank" style="color: #667eea;">amitkmishra.dev</a>
+                    </div>
+                </div>
+            </div>
+            <div class="cta-buttons" style="margin-top:20px;">
+                <a href="resume.pdf" target="_blank" class="cta-btn">📄 Download Resume</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Three.js Setup
+        let scene, camera, renderer, dataObjects = [];
+        let clock = new THREE.Clock();
+        
+        function init() {
+            // Scene setup
+            scene = new THREE.Scene();
+            scene.fog = new THREE.Fog(0x0a0a1e, 1, 2000);
+            
+            // Camera setup
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 2000);
+            camera.position.set(0, 20, 100);
+            
+            // Renderer setup
+            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setClearColor(0x0a0a1e, 1);
+            renderer.shadowMap.enabled = true;
+            renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+            document.getElementById('canvas-container').appendChild(renderer.domElement);
+            
+            createLighting();
+            createDataVisualization();
+            createCosmicBackground();
+            setupControls();
+            animate();
+        }
+        
+        function createLighting() {
+            // Main directional light
+            const directionalLight = new THREE.DirectionalLight(0x667eea, 1);
+            directionalLight.position.set(50, 50, 50);
+            directionalLight.castShadow = true;
+            directionalLight.shadow.mapSize.width = 2048;
+            directionalLight.shadow.mapSize.height = 2048;
+            scene.add(directionalLight);
+            
+            // Ambient light
+            const ambientLight = new THREE.AmbientLight(0x404040, 0.3);
+            scene.add(ambientLight);
+            
+            // Dynamic point lights
+            for (let i = 0; i < 3; i++) {
+                const pointLight = new THREE.PointLight(0x667eea, 0.8, 100);
+                pointLight.position.set(
+                    (Math.random() - 0.5) * 200,
+                    (Math.random() - 0.5) * 100,
+                    (Math.random() - 0.5) * 200
+                );
+                scene.add(pointLight);
+                dataObjects.push(pointLight);
+            }
+        }
+        
+        function createDataVisualization() {
+            // Create floating data nodes
+            const nodeGeometry = new THREE.IcosahedronGeometry(2, 1);
+            
+            for (let i = 0; i < 50; i++) {
+                const material = new THREE.MeshPhongMaterial({
+                    color: new THREE.Color().setHSL(Math.random() * 0.3 + 0.5, 0.8, 0.6),
+                    transparent: true,
+                    opacity: 0.7
+                });
+                
+                const node = new THREE.Mesh(nodeGeometry, material);
+                node.position.set(
+                    (Math.random() - 0.5) * 300,
+                    (Math.random() - 0.5) * 200,
+                    (Math.random() - 0.5) * 300
+                );
+                
+                node.userData = {
+                    originalPosition: node.position.clone(),
+                    speed: Math.random() * 0.02 + 0.01,
+                    amplitude: Math.random() * 10 + 5
+                };
+                
+                scene.add(node);
+                dataObjects.push(node);
+            }
+            
+            // Create connecting lines between nodes
+            createDataConnections();
+        }
+        
+        function createDataConnections() {
+            const points = [];
+            const colors = [];
+            
+            for (let i = 0; i < 100; i++) {
+                const start = new THREE.Vector3(
+                    (Math.random() - 0.5) * 200,
+                    (Math.random() - 0.5) * 100,
+                    (Math.random() - 0.5) * 200
+                );
+                const end = new THREE.Vector3(
+                    (Math.random() - 0.5) * 200,
+                    (Math.random() - 0.5) * 100,
+                    (Math.random() - 0.5) * 200
+                );
+                
+                points.push(start, end);
+                
+                const color = new THREE.Color(0x667eea);
+                colors.push(color.r, color.g, color.b);
+                colors.push(color.r, color.g, color.b);
+            }
+            
+            const geometry = new THREE.BufferGeometry().setFromPoints(points);
+            geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+            
+            const material = new THREE.LineBasicMaterial({
+                vertexColors: true,
+                transparent: true,
+                opacity: 0.3
+            });
+            
+            const lines = new THREE.LineSegments(geometry, material);
+            scene.add(lines);
+            dataObjects.push(lines);
+        }
+        
+        function createCosmicBackground() {
+            // Create starfield
+            const starGeometry = new THREE.BufferGeometry();
+            const starMaterial = new THREE.PointsMaterial({
+                color: 0xffffff,
+                size: 1,
+                transparent: true,
+                opacity: 0.8
+            });
+            
+            const starVertices = [];
+            for (let i = 0; i < 10000; i++) {
+                const x = (Math.random() - 0.5) * 4000;
+                const y = (Math.random() - 0.5) * 4000;
+                const z = (Math.random() - 0.5) * 4000;
+                starVertices.push(x, y, z);
+            }
+            
+            starGeometry.setAttribute('position', new THREE.Float32BufferAttribute(starVertices, 3));
+            const stars = new THREE.Points(starGeometry, starMaterial);
+            scene.add(stars);
+            dataObjects.push(stars);
+        }
+        
+        function setupControls() {
+            let isDragging = false;
+            let previousMousePosition = { x: 0, y: 0 };
+            
+            renderer.domElement.addEventListener('mousedown', (e) => {
+                isDragging = true;
+                previousMousePosition = { x: e.clientX, y: e.clientY };
+                createClickEffect(e.clientX, e.clientY);
+            });
+            
+            renderer.domElement.addEventListener('mousemove', (e) => {
+                if (isDragging) {
+                    const deltaMove = {
+                        x: e.clientX - previousMousePosition.x,
+                        y: e.clientY - previousMousePosition.y
+                    };
+                    
+                    const spherical = new THREE.Spherical();
+                    spherical.setFromVector3(camera.position);
+                    
+                    spherical.theta -= deltaMove.x * 0.01;
+                    spherical.phi += deltaMove.y * 0.01;
+                    spherical.phi = Math.max(0.1, Math.min(Math.PI - 0.1, spherical.phi));
+                    
+                    camera.position.setFromSpherical(spherical);
+                    camera.lookAt(0, 0, 0);
+                    
+                    previousMousePosition = { x: e.clientX, y: e.clientY };
+                }
+            });
+            
+            renderer.domElement.addEventListener('mouseup', () => {
+                isDragging = false;
+            });
+            
+            renderer.domElement.addEventListener('wheel', (e) => {
+                const zoom = e.deltaY * 0.01;
+                const newDistance = camera.position.length() * (1 + zoom * 0.1);
+                const targetDistance = Math.max(50, Math.min(300, newDistance));
+                const currentDistance = camera.position.length();
+                const zoomFactor = targetDistance / currentDistance;
+                
+                camera.position.multiplyScalar(zoomFactor);
+            });
+        }
+        
+        function animate() {
+            requestAnimationFrame(animate);
+            
+            const time = clock.getElapsedTime();
+            
+            // Animate data objects
+            dataObjects.forEach((obj, index) => {
+                if (obj.userData && obj.userData.originalPosition) {
+                    obj.position.x = obj.userData.originalPosition.x + Math.sin(time * obj.userData.speed + index) * obj.userData.amplitude;
+                    obj.position.y = obj.userData.originalPosition.y + Math.cos(time * obj.userData.speed * 1.5 + index) * obj.userData.amplitude * 0.5;
+                    obj.rotation.x += 0.01;
+                    obj.rotation.y += 0.02;
+                }
+                
+                if (obj.type === 'PointLight') {
+                    obj.intensity = 0.8 + Math.sin(time * 2 + index * 2) * 0.3;
+                    const radius = 100 + Math.sin(time * 0.3 + index) * 30;
+                    obj.position.x = Math.sin(time * 0.5 + index * 2) * radius;
+                    obj.position.z = Math.cos(time * 0.5 + index * 2) * radius;
+                    
+                    const hue = (time * 0.1 + index * 0.5) % 1;
+                    obj.color.setHSL(0.5 + hue * 0.3, 0.8, 0.6);
+                }
+            });
+            
+            // Subtle camera breathing when idle
+            camera.position.x += Math.sin(time * 0.1) * 0.1;
+            camera.position.y += Math.cos(time * 0.15) * 0.05;
+            
+            renderer.render(scene, camera);
+        }
+        
+        function createClickEffect(x, y) {
+            // Create particle burst at click location
+            const particleCount = 15;
+            const particles = new THREE.Group();
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = new THREE.Mesh(
+                    new THREE.SphereGeometry(0.2, 4, 4),
+                    new THREE.MeshBasicMaterial({ 
+                        color: 0x667eea,
+                        transparent: true,
+                        opacity: 0.8
+                    })
+                );
+                
+                const direction = new THREE.Vector3(
+                    (Math.random() - 0.5) * 2,
+                    (Math.random() - 0.5) * 2,
+                    (Math.random() - 0.5) * 2
+                ).normalize();
+                
+                particle.position.copy(camera.position).add(direction.multiplyScalar(10));
+                particle.userData = {
+                    velocity: direction.multiplyScalar(Math.random() * 3 + 1),
+                    life: 1.0
+                };
+                
+                particles.add(particle);
+            }
+            
+            scene.add(particles);
+            
+            // Animate particles
+            const animateParticles = () => {
+                let aliveCount = 0;
+                particles.children.forEach(particle => {
+                    particle.position.add(particle.userData.velocity);
+                    particle.userData.velocity.multiplyScalar(0.98);
+                    particle.userData.life -= 0.02;
+                    particle.material.opacity = particle.userData.life;
+                    particle.scale.setScalar(particle.userData.life);
+                    
+                    if (particle.userData.life > 0) aliveCount++;
+                });
+                
+                if (aliveCount > 0) {
+                    requestAnimationFrame(animateParticles);
+                } else {
+                    scene.remove(particles);
+                }
+            };
+            animateParticles();
+        }
+        
+        function triggerProjectEffect(projectType) {
+            // Create project-specific visual effects
+            const effects = {
+                churn: () => createRippleEffect(0xff4444),
+                recommendation: () => createRippleEffect(0x44ff44),
+                sentiment: () => createRippleEffect(0x4444ff),
+                pricing: () => createRippleEffect(0xffff44)
+            };
+            
+            if (effects[projectType]) {
+                effects[projectType]();
+            }
+        }
+        
+        function createRippleEffect(color) {
+            const ring = new THREE.Mesh(
+                new THREE.RingGeometry(1, 2, 16),
+                new THREE.MeshBasicMaterial({
+                    color: color,
+                    transparent: true,
+                    opacity: 0.6,
+                    side: THREE.DoubleSide
+                })
+            );
+            
+            ring.position.set(0, 0, 0);
+            scene.add(ring);
+            
+            let scale = 1;
+            const animateRing = () => {
+                scale += 1.5;
+                ring.scale.setScalar(scale);
+                ring.material.opacity = Math.max(0, 0.6 - scale * 0.05);
+                
+                if (ring.material.opacity > 0) {
+                    requestAnimationFrame(animateRing);
+                } else {
+                    scene.remove(ring);
+                }
+            };
+            animateRing();
+        }
+        
+        // UI Navigation
+        function showSection(section, btn) {
+            // Update navigation
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            if (btn) {
+                btn.classList.add('active');
+            }
+            
+            // Hide all panels
+            document.querySelectorAll('.content-panel, .hero-section').forEach(panel => {
+                panel.classList.remove('active');
+            });
+            
+            // Show selected panel
+            const targetPanel = document.getElementById(section + '-panel');
+            if (targetPanel) {
+                targetPanel.classList.add('active');
+            }
+            
+            // Camera transitions for different sections
+            animateCameraToSection(section);
+        }
+        
+        function animateCameraToSection(section) {
+            const positions = {
+                home: { x: 0, y: 20, z: 100 },
+                about: { x: 50, y: 30, z: 80 },
+                skills: { x: -60, y: 40, z: 90 },
+                projects: { x: 40, y: -20, z: 120 },
+                contact: { x: -40, y: 10, z: 70 }
+            };
+            
+            const config = positions[section] || positions.home;
+            const targetPos = new THREE.Vector3(config.x, config.y, config.z);
+            const startPos = camera.position.clone();
+            const startTime = Date.now();
+            const duration = 1500;
+            
+            function updateCamera() {
+                const elapsed = Date.now() - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const eased = progress < 0.5 
+                    ? 4 * progress * progress * progress 
+                    : 1 - Math.pow(-2 * progress + 2, 3) / 2;
+                
+                camera.position.lerpVectors(startPos, targetPos, eased);
+                camera.lookAt(0, 0, 0);
+                
+                if (progress < 1) {
+                    requestAnimationFrame(updateCamera);
+                }
+            }
+            updateCamera();
+        }
+        
+        // Responsive handling
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+        
+        window.addEventListener('resize', onWindowResize, false);
+        
+        // Initialize everything
+        init();
+    </script>
+</body>
+</html>
