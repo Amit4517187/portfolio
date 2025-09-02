@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="description" content="Portfolio of Amit Kumar Mishra, Physics graduate turned Data Scientist showcasing projects, skills, and contact.">
-    <meta name="keywords" content="Amit Kumar Mishra, Data Science, Machine Learning, Physics, Portfolio, Projects">
+    <meta name="keywords" content="Amit Kumar Mishra, Data Science, Machine Learning, AI, Physics, Portfolio, Projects">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><!-- EDIT: -->Amit Kumar Mishra | 3D Data Science Portfolio</title>
+    <title>Amit Kumar Mishra Portfolio</title>
+    <!-- Amit Kumar Mishra Portfolio -->
     <script src="https://unpkg.com/three@0.154.0/build/three.min.js"></script>
     <style>
         * {
@@ -348,31 +349,80 @@
         @media (max-width: 768px) {
             .hero-section,
             .content-panel {
-                position: fixed;
-                top: 50%;
-                left: 20px;
-                right: 20px;
-                width: auto;
-                max-height: 70vh;
-                padding: 25px;
+                position: relative;
+                top: auto;
+                left: auto;
+                right: auto;
+                width: 100%;
+                max-width: 100%;
+                max-height: none;
+                padding: 20px 8px;
+                margin: 0 auto 20px auto;
+                border-radius: 15px;
+                transform: none;
+                box-sizing: border-box;
+                z-index: 20;
             }
-            
+            .hero-section {
+                margin-top: 60px;
+                /* Remove position: fixed; */
+                z-index: 20;
+            }
+            .content-panel {
+                margin-top: 0;
+                z-index: 20;
+            }
             .navigation {
-                top: 20px;
+                position: fixed;
+                top: 10px;
+                left: 0;
+                right: 0;
+                transform: none;
+                display: flex;
                 flex-wrap: wrap;
                 justify-content: center;
-                max-width: 90%;
-                gap: 10px;
+                max-width: 100%;
+                gap: 5px;
+                z-index: 100;
+                flex-wrap: wrap;
+                row-gap: 6px;
             }
-            
             .nav-btn {
                 padding: 8px 16px;
                 font-size: 0.9rem;
             }
-
             .floating-stats {
                 display: none;
             }
+            .instructions {
+                bottom: 10px;
+                left: 50%;
+                transform: translateX(-50%);
+                font-size: 0.8rem;
+                padding: 8px 12px;
+                max-width: 90%;
+                border-radius: 10px;
+                position: relative;
+                margin: 10px auto 0 auto;
+            }
+            .cta-buttons a,
+            .cta-btn {
+                padding: 8px 16px;
+                font-size: 0.85rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-section h1 { font-size: 1.5rem; }
+            .hero-section h2 { font-size: 1rem; }
+            .nav-btn { padding: 5px 10px; font-size: 0.75rem; }
+        }
+
+        @media (max-width: 360px) {
+            .hero-section h1 { font-size: 1.2rem; }
+            .hero-section h2 { font-size: 0.9rem; }
+            .cta-btn { font-size: 0.75rem; padding: 6px 10px; }
+            .nav-btn { font-size: 0.7rem; padding: 4px 8px; }
         }
     </style>
 </head>
@@ -388,15 +438,11 @@
             <button class="nav-btn" onclick="showSection('contact', this)">Contact</button>
         </nav>
 
-        <div class="instructions">
-            🖱️ Drag to explore • 🔍 Scroll to zoom • ✨ Click objects for effects
-        </div>
-
         <!-- Hero Section (Home) -->
         <div class="hero-section" id="home-panel">
-            <h1><!-- EDIT: -->Amit Kumar Mishra</h1>
-            <h2><!-- EDIT: -->Aspiring Data Scientist</h2>
-            <p><!-- EDIT: -->Transforming complex data into actionable insights through machine learning, statistical analysis, and interactive visualizations. Ready to tackle real-world challenges with cutting-edge data science techniques.</p>
+            <h1>Amit Kumar Mishra Portfolio</h1>
+            <h2>Data Science Portfolio</h2>
+            <p>Welcome to my portfolio! Explore my journey, projects, and skills in Data Science and Machine Learning.</p>
             <div class="cta-buttons">
                 <a href="resume.pdf" target="_blank" class="cta-btn">📄 View Resume</a>
                 <a href="#projects" class="cta-btn" onclick="showSection('projects', this)">View Projects</a>
@@ -412,11 +458,11 @@
             </div>
             <div class="stat-item">
                 <span>ML Models Deployed:</span>
-                <span class="stat-value"><!-- EDIT: -->5</span>
+                <span class="stat-value">5</span>
             </div>
             <div class="stat-item">
                 <span>Data Points Analyzed:</span>
-                <span class="stat-value"><!-- EDIT: -->1M+</span>
+                <span class="stat-value">1M+</span>
             </div>
         </div>
 
@@ -437,30 +483,36 @@
             
             <h3>Programming Languages</h3>
             <div class="skill-grid">
-                <div class="skill-item"><!-- EDIT: -->Python</div>
-                <div class="skill-item"><!-- EDIT: -->SQL</div>
-                <div class="skill-item"><!-- EDIT: -->JavaScript</div>
+                <div class="skill-item">Python</div>
+                <div class="skill-item">SQL</div>
+                <div class="skill-item">JavaScript</div>
             </div>
 
             <h3>ML & Data Science</h3>
             <div class="skill-grid">
-                <div class="skill-item"><!-- EDIT: -->Pandas</div>
-                <div class="skill-item"><!-- EDIT: -->NumPy</div>
-                <div class="skill-item"><!-- EDIT: -->Scikit-learn</div>
-                <div class="skill-item"><!-- EDIT: -->TensorFlow</div>
-                <div class="skill-item"><!-- EDIT: -->PyTorch</div>
-                <div class="skill-item"><!-- EDIT: -->XGBoost</div>
-                <div class="skill-item"><!-- EDIT: -->NLP</div>
-                <div class="skill-item"><!-- EDIT: -->Deep learning</div>
+                <div class="skill-item">Pandas</div>
+                <div class="skill-item">NumPy</div>
+                <div class="skill-item">Scikit-learn</div>
+                <div class="skill-item">TensorFlow</div>
+                <div class="skill-item">PyTorch</div>
+                <div class="skill-item">XGBoost</div>
+                <div class="skill-item">NLP</div>
+                <div class="skill-item">Deep learning</div>
+                <div class="skill-item">FAST API</div>
+                <div class="skill-item">Streamlit</div>
+                <div class="skill-item">Flask</div>
+
+
+
             </div>
 
             <h3>Visualization & Tools</h3>
             <div class="skill-grid">
-                <div class="skill-item"><!-- EDIT: -->Tableau</div>
-                <div class="skill-item"><!-- EDIT: -->Matplotlib</div>
-                <div class="skill-item"><!-- EDIT: -->Plotly</div>
-                <div class="skill-item"><!-- EDIT: -->Git/GitHub</div>
-                <div class="skill-item"><!-- EDIT: -->Docker</div>
+                <div class="skill-item">Tableau</div>
+                <div class="skill-item">Matplotlib</div>
+                <div class="skill-item">Plotly</div>
+                <div class="skill-item">Git/GitHub</div>
+                <div class="skill-item">Docker</div>
             </div>
         </div>
 
@@ -469,7 +521,7 @@
 
             <div class="project-card" onclick="triggerProjectEffect('churn')">
                 <h4>🎯 Customer Churn Prediction System</h4>
-                <p><!-- EDIT: -->Built an ensemble ML model achieving 94% accuracy in predicting customer churn. Implemented feature engineering, hyperparameter tuning, and deployed via Streamlit dashboard for real-time predictions.</p>
+                <p>Built an ensemble ML model achieving 94% accuracy in predicting customer churn. Implemented feature engineering, hyperparameter tuning, and deployed via Streamlit dashboard for real-time predictions.</p>
                 <div class="tech-tags">
                     <span class="tech-tag">Python</span>
                     <span class="tech-tag">XGBoost</span>
@@ -484,7 +536,7 @@
 
             <div class="project-card" onclick="triggerProjectEffect('recommendation')">
                 <h4>🛒 E-commerce Recommendation Engine</h4>
-                <p><!-- EDIT: -->Developed a hybrid recommendation system combining collaborative filtering and content-based approaches. Increased user engagement by 35% through personalized product suggestions.</p>
+                <p>Developed a hybrid recommendation system combining collaborative filtering and content-based approaches. Increased user engagement by 35% through personalized product suggestions.</p>
                 <div class="tech-tags">
                     <span class="tech-tag">Python</span>
                     <span class="tech-tag">Pandas</span>
@@ -499,7 +551,7 @@
 
             <div class="project-card" onclick="triggerProjectEffect('sentiment')">
                 <h4>📊 Real-time Sentiment Analysis Dashboard</h4>
-                <p><!-- EDIT: -->Created a live sentiment monitoring system for social media data using NLP techniques. Features real-time visualizations and trend analysis with 89% sentiment classification accuracy.</p>
+                <p>Created a live sentiment monitoring system for social media data using NLP techniques. Features real-time visualizations and trend analysis with 89% sentiment classification accuracy.</p>
                 <div class="tech-tags">
                     <span class="tech-tag">NLP</span>
                     <span class="tech-tag">BERT</span>
@@ -514,7 +566,7 @@
 
             <div class="project-card" onclick="triggerProjectEffect('pricing')">
                 <h4>🏠 Dynamic Pricing Model</h4>
-                <p><!-- EDIT: -->Built a regression-based pricing model for real estate using feature engineering and ensemble methods. Deployed as a web app with interactive visualizations and location-based insights.</p>
+                <p>Built a regression-based pricing model for real estate using feature engineering and ensemble methods. Deployed as a web app with interactive visualizations and location-based insights.</p>
                 <div class="tech-tags">
                     <span class="tech-tag">Random Forest</span>
                     <span class="tech-tag">AWS</span>
@@ -537,14 +589,14 @@
                     <span role="img" aria-label="Email">📧</span>
                     <div>
                         <strong>Gmail</strong><br>
-                        <!-- EDIT: --><a href="mailto:amitkmishra0641@gmail.com" style="color: #667eea;">amitkmishra0641@gmail.com</a>
+                        <a href="mailto:amitkmishra0641@gmail.com" style="color: #667eea;">amitkmishra0641@gmail.com</a>
                     </div>
                 </div>
                 <div class="contact-item">
                     <span role="img" aria-label="LinkedIn">💼</span>
                     <div>
                         <strong>LinkedIn</strong><br>
-                        <!-- EDIT: --><a href="https://www.linkedin.com/in/amit-kumar-mishra-635bb0240/" style="color: #667eea;">linkedin.com/in/amit-kumar-mishra-635bb0240
+                        <a href="https://www.linkedin.com/in/amit-kumar-mishra-635bb0240/" style="color: #667eea;">linkedin.com/in/amit-kumar-mishra-635bb0240
                         </a>
                     </div>
                 </div>
@@ -552,14 +604,14 @@
                     <span role="img" aria-label="GitHub">⚡</span>
                     <div>
                         <strong>GitHub</strong><br>
-                        <!-- EDIT: --><a href="https://github.com/Amit4517187" style="color: #667eea;">github.com/Amit4517187</a>
+                        <a href="https://github.com/Amit4517187" style="color: #667eea;">github.com/Amit4517187</a>
                     </div>
                 </div>
                 <div class="contact-item">
                     <span role="img" aria-label="Portfolio">🌐</span>
                     <div>
                         <strong>Portfolio</strong><br>
-                        <!-- EDIT: --><a href="https://amit4517187.github.io/portfolio" target="_blank" style="color: #667eea;">amitkmishra.dev</a>
+                        <a href="https://amit4517187.github.io/portfolio" target="_blank" style="color: #667eea;">amitkmishra.dev</a>
                     </div>
                 </div>
             </div>
