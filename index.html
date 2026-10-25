@@ -117,13 +117,6 @@
             animation: packetFlow 0.9s linear infinite;
         }
 
-        /* Audit Callout Highlight Ring when Audit Mode is Active */
-        body.audit-highlight-active .audit-target {
-            outline: 2px dashed #F59E0B;
-            outline-offset: 4px;
-            position: relative;
-        }
-
         /* Custom Sliders */
         input[type="range"].telemetry-slider {
             -webkit-appearance: none;
@@ -183,9 +176,8 @@
                     AKM
                 </div>
                 <div class="hidden sm:block">
-                    <div class="font-mono-tech text-xs font-semibold text-white tracking-tight flex items-center gap-2">
-                        <span>AMIT KUMAR MISHRA</span>
-                        <span class="px-1.5 py-0.5 text-[10px] rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">v2.4 PROD</span>
+                    <div class="font-mono-tech text-xs font-semibold text-white tracking-tight">
+                        AMIT KUMAR MISHRA
                     </div>
                     <div class="font-mono-tech text-[10px] text-slate-400">ML SYSTEMS · FASTAPI · PYTORCH</div>
                 </div>
@@ -202,12 +194,6 @@
 
             <!-- Right Utilities & Mobile Hamburger -->
             <div class="flex items-center gap-2">
-                <button onclick="toggleAuditDrawer()" class="px-3 py-1.5 rounded-xl bg-amber-500/15 hover:bg-amber-500/25 border border-amber-500/40 text-amber-300 font-mono-tech text-xs font-medium flex items-center gap-1.5 transition shadow-sm" title="See all redesign upgrades applied to your portfolio">
-                    <i class="ph-fill ph-sparkle text-amber-400"></i>
-                    <span class="hidden md:inline">What Was Fixed</span>
-                    <span class="px-1.5 py-0.2 bg-amber-400/20 rounded text-[10px]">6</span>
-                </button>
-
                 <button onclick="openCommandPalette()" class="telemetry-pill px-3 py-1.5 rounded-xl font-mono-tech text-xs text-slate-300 hover:text-white hover:border-white/25 transition flex items-center gap-2" title="Open Command Palette (Cmd+K)">
                     <i class="ph-bold ph-terminal-window text-sky-400"></i>
                     <span class="hidden sm:inline">Console</span>
@@ -273,7 +259,7 @@
                     </div>
 
                     <!-- Refined High-Authority Pitch -->
-                    <p class="text-base sm:text-lg text-slate-300 max-w-2xl leading-relaxed font-normal audit-target rounded-xl">
+                    <p class="text-base sm:text-lg text-slate-300 max-w-2xl leading-relaxed font-normal rounded-xl">
                         I build and ship <strong class="text-white font-semibold">robust ML systems designed for real production environments</strong> — combining low-latency <span class="font-mono-tech text-sm text-sky-300 bg-sky-500/10 px-1.5 py-0.5 rounded">FastAPI</span> inference pipelines, offline-first edge fallbacks, and deterministic guardrails over calibrated models.
                     </p>
 
@@ -375,7 +361,7 @@
             <!-- =================================================================
                  PROJECT 01: MEDVERIFY
                  ================================================================= -->
-            <article class="obsidian-card spotlight-card rounded-3xl p-6 sm:p-8 space-y-6 audit-target">
+            <article class="obsidian-card spotlight-card rounded-3xl p-6 sm:p-8 space-y-6">
                 <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-white/10 pb-5">
                     <div class="space-y-1.5">
                         <div class="flex flex-wrap items-center gap-2.5">
@@ -534,7 +520,7 @@
             <!-- =================================================================
                  PROJECT 02: CREDIT UNDERWRITING ENGINE
                  ================================================================= -->
-            <article class="obsidian-card spotlight-card rounded-3xl p-6 sm:p-8 space-y-6 audit-target">
+            <article class="obsidian-card spotlight-card rounded-3xl p-6 sm:p-8 space-y-6">
                 <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-white/10 pb-5">
                     <div class="space-y-1.5">
                         <div class="flex flex-wrap items-center gap-2.5">
@@ -762,7 +748,7 @@
         <!-- =====================================================================
              // 03 . ARCHITECTURAL STACK MATRIX
              ===================================================================== -->
-        <section id="stack" class="space-y-8 audit-target">
+        <section id="stack" class="space-y-8">
             <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-white/10 pb-5">
                 <div>
                     <div class="font-mono-tech text-xs uppercase tracking-widest text-amber-400 mb-1">// 03 . SYSTEM ARCHITECTURE MATRIX</div>
@@ -847,7 +833,7 @@
         <!-- =====================================================================
              // 04 . ABOUT & ENGINEERING MANIFESTO
              ===================================================================== -->
-        <section id="manifesto" class="space-y-8 audit-target">
+        <section id="manifesto" class="space-y-8">
             <div class="border-b border-white/10 pb-5">
                 <div class="font-mono-tech text-xs uppercase tracking-widest text-purple-400 mb-1">// 04 . FIRST-PRINCIPLES MANIFESTO</div>
                 <h2 class="text-3xl sm:text-4xl font-bold text-white">Trained in Physics. Engineered for Production ML.</h2>
@@ -1020,10 +1006,6 @@
                     <span class="flex items-center gap-2.5"><i class="ph-fill ph-shield-warning text-sky-400"></i> Trigger Credit Engine 5× DTI Guardrail Override</span>
                     <span class="text-[10px] text-slate-400">SIMULATION</span>
                 </button>
-                <button onclick="runCmd('audit')" class="cmd-item w-full text-left px-3 py-2.5 rounded-xl hover:bg-white/10 text-slate-200 flex items-center justify-between">
-                    <span class="flex items-center gap-2.5"><i class="ph-fill ph-sparkle text-amber-400"></i> Inspect All 6 Portfolio Redesign Upgrades</span>
-                    <span class="text-[10px] text-amber-400">AUDIT</span>
-                </button>
                 <button onclick="runCmd('copy-email')" class="cmd-item w-full text-left px-3 py-2.5 rounded-xl hover:bg-white/10 text-slate-200 flex items-center justify-between">
                     <span class="flex items-center gap-2.5"><i class="ph-bold ph-copy text-emerald-400"></i> Copy Email (amitkmishra0641@gmail.com)</span>
                     <span class="text-[10px] text-slate-400">CLIPBOARD</span>
@@ -1032,57 +1014,6 @@
                     <span class="flex items-center gap-2.5"><i class="ph-fill ph-github-logo text-white"></i> Open GitHub (@Amit4517187)</span>
                     <span class="text-[10px] text-slate-400">EXTERNAL ↗</span>
                 </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- =====================================================================
-         MODAL 2: "✨ WHAT WAS FIXED" DESIGN AUDIT TRANSFORMATION DRAWER
-         ===================================================================== -->
-    <div id="audit-drawer" class="fixed inset-y-0 right-0 z-50 w-full max-w-md obsidian-card border-l border-amber-500/40 p-6 overflow-y-auto translate-x-full transition-transform duration-300 space-y-5">
-        <div class="flex items-center justify-between border-b border-white/10 pb-4">
-            <div class="flex items-center gap-2">
-                <i class="ph-fill ph-sparkle text-amber-400 text-xl"></i>
-                <h3 class="font-bold text-lg text-white">6 Upgrades Applied</h3>
-            </div>
-            <button onclick="toggleAuditDrawer()" class="telemetry-pill p-1.5 rounded-lg text-slate-400 hover:text-white">
-                <i class="ph-bold ph-x"></i>
-            </button>
-        </div>
-
-        <p class="text-xs text-slate-300 leading-relaxed">
-            Here is every structural, credibility, and interactive upgrade built into this new version compared to your current portfolio:
-        </p>
-
-        <div class="space-y-3 text-xs">
-            <div class="telemetry-pill p-3.5 rounded-xl border-l-2 border-l-emerald-400 space-y-1">
-                <div class="font-mono-tech font-bold text-emerald-400">1. Fixed Credit Engine Metric Red Flag</div>
-                <p class="text-slate-300">Replaced the old ROC-AUC badge with production-grade metrics (`&lt;16ms p95 Inference Latency`, `Calibrated Brier Score: 0.084`, `307,511 Home Credit Rows`, and `100% Deterministic Guardrail Compliance`).</p>
-            </div>
-
-            <div class="telemetry-pill p-3.5 rounded-xl border-l-2 border-l-sky-400 space-y-1">
-                <div class="font-mono-tech font-bold text-sky-400">2. Reframed Physics Background</div>
-                <p class="text-slate-300">Aligned your B.Sc. Physics timeline (2021–2024) and reframed your bio into high-authority engineering positioning: <em>"Trained in First-Principles Physics. Engineered for Production ML."</em></p>
-            </div>
-
-            <div class="telemetry-pill p-3.5 rounded-xl border-l-2 border-l-amber-400 space-y-1">
-                <div class="font-mono-tech font-bold text-amber-400">3. Interactive Online vs. Offline MedVerify Switch</div>
-                <p class="text-slate-300">Recruiters can toggle between <strong>Online Cloud AI</strong> and <strong>Offline Rural Edge Fallback</strong> and watch SVG data packets reroute through Workbox + IndexedDB live.</p>
-            </div>
-
-            <div class="telemetry-pill p-3.5 rounded-xl border-l-2 border-l-purple-400 space-y-1">
-                <div class="font-mono-tech font-bold text-purple-400">4. Live Credit Guardrail &amp; LLaMA 3.3 Sandbox</div>
-                <p class="text-slate-300">Added interactive Income/Loan/EMI sliders that trigger the deterministic `Loan &gt; 5x Income` override in real time, plus a toggle between Raw JSON and LLaMA 3.3 70B human explanations.</p>
-            </div>
-
-            <div class="telemetry-pill p-3.5 rounded-xl border-l-2 border-l-emerald-400 space-y-1">
-                <div class="font-mono-tech font-bold text-emerald-400">5. 4-Layer Systems Bento Matrix</div>
-                <p class="text-slate-300">Replaced infinite marquee text with an interactive 4-Layer Systems Bento Matrix highlighting which technologies power MedVerify, Credit Engine, or Enterprise RAG.</p>
-            </div>
-
-            <div class="telemetry-pill p-3.5 rounded-xl border-l-2 border-l-sky-400 space-y-1">
-                <div class="font-mono-tech font-bold text-sky-400">6. 3-Tier Typography &amp; ⌘K Command Console</div>
-                <p class="text-slate-300">Paired `Space Grotesk` headers + `Inter` body copy + `IBM Plex Mono` telemetry for clean, fatigue-free reading.</p>
             </div>
         </div>
     </div>
@@ -1471,18 +1402,6 @@
             }, 3200);
         }
 
-        function toggleAuditDrawer() {
-            const drawer = document.getElementById('audit-drawer');
-            const isOpen = !drawer.classList.contains('translate-x-full');
-            if (isOpen) {
-                drawer.classList.add('translate-x-full');
-                document.body.classList.remove('audit-highlight-active');
-            } else {
-                drawer.classList.remove('translate-x-full');
-                document.body.classList.add('audit-highlight-active');
-            }
-        }
-
         function openCommandPalette() {
             const modal = document.getElementById('cmd-palette-modal');
             modal.classList.remove('hidden');
@@ -1517,8 +1436,6 @@
                 document.getElementById('credit-loan-slider').value = 5500000;
                 updateCreditSimulation();
                 document.getElementById('credit-loan-slider').scrollIntoView({ behavior: 'smooth', block: 'center' });
-            } else if (action === 'audit') {
-                toggleAuditDrawer();
             } else if (action === 'copy-email') {
                 copyEmailWithToast();
             } else if (action === 'github') {
